@@ -95,15 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# E-mail configuration
-
-EMAIL_HOST = "smtp.festivalimaginaria.com.br"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "info@festivalimaginaria.com.br"
-EMAIL_HOST_PASSWORD = "Queroquero<3"
-EMAIL_USE_TLS = True
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
