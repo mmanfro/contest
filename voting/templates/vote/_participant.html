@@ -1,0 +1,17 @@
+{% load static %}
+{% load i18n %}
+
+<div class="video">
+    <iframe src="{{ participant.video_url }}" scrolling="no"></iframe>
+</div>
+<a class="vote" href="{% url 'voting:vote' participant_id=participant.id %}">{% translate "Votar" %}!</a>
+<div class="votes">
+    <span class="votes">{{ participant.votes }}</span>
+</div>
+<div class="name">
+    <span class="name">{{ participant.name }}</span>
+</div>
+<details class="description">
+    <summary>{% translate "Detalhes" %}</summary>
+    <p>{{ participant.description }}</p>
+</details>

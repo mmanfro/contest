@@ -1,0 +1,37 @@
+{% load static %}
+{% load i18n %}
+
+<html>
+    <head>
+        <title>_zine vs zine</title>
+        <link rel="shortcut icon" type="image/png" href="{% static "contest/images/favicon.png" %}" />
+        <link href="{% static "contest/css/base.css" %}" rel="stylesheet" />
+        <script src="{% static "contest/js/htmx.min.js" %}"></script>
+        <script src="{% url "javascript-catalog" %}"></script>
+        <script>
+            var static_url = "{% get_static_prefix %}";
+            var media_url = "{% get_media_prefix %}";
+        </script>
+        <script type="text/javascript" src="{% static "contest/js/base.js" %}"></script>
+        
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+        <div id="loading" class="htmx-indicator">
+            <div id="loading-wheel"></div>
+        </div>
+
+        <div id="header">
+            <img id="logo" src="{% static 'contest/images/logo.png' %}"/>
+            <h1>_zine vs zine</h1>
+        </div>
+
+        {% include "contest/messages.html" %}
+
+        <div id="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>
