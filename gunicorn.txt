@@ -6,7 +6,6 @@ sudo su -c "
     pkill gunicorn;
     cd /home/contest/ &&
     source venv/bin/activate &&
-    python manage.py makemigrations --no-input &&
     python manage.py migrate &&
     python manage.py collectstatic --no-input &&
     gunicorn -b 0:8000 contest.wsgi --daemon
