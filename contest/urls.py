@@ -16,8 +16,3 @@ urlpatterns = i18n_patterns(
     path("", v.index),
     path("voting/", include("voting.urls", namespace="voting")),
 )
-
-handler500 = "contest.views.handler500"
-handler404 = "contest.views.handler404"
-handler403 = "contest.views.handler403"
-handler400 = "contest.views.handler400"
