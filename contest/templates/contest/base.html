@@ -4,9 +4,13 @@
 <html>
     <head>
         <title>_zine vs zine</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@main/detectIncognito.min.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback" async defer></script>
         <link rel="shortcut icon" type="image/png" href="{% static "contest/images/favicon.png" %}" />
         <link href="{% static "contest/css/base.css" %}" rel="stylesheet" />
-        <script src="{% static "contest/js/htmx.min.js" %}"></script>
         <script src="{% url "javascript-catalog" %}"></script>
         <script>
             var static_url = "{% get_static_prefix %}";
@@ -17,18 +21,17 @@
         {% block head %}
         {% endblock head %}
     </head>
-    <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-        <div id="loading" class="htmx-indicator">
-            <div id="loading-wheel"></div>
-        </div>
-
+    <body>
         <div id="header">
-            <img id="logo" src="{% static 'contest/images/logo.png' %}"/>
-            <h1>_zine vs zine</h1>
+            <a href="https://festivalimaginaria.com.br/" target="_blank">
+                <img id="logo" src="{% static 'contest/images/imaginaria.png' %}"/>
+            </a>
+            <img id="contest" src="{% static 'contest/images/zine_vs_zine.png' %}"/>
+            {% comment %} <h1>_zine vs zine</h1> {% endcomment %}
         </div>
-
+        
         {% include "contest/messages.html" %}
-
+        
         <div id="content">
             {% block content %}
             {% endblock content %}

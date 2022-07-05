@@ -28,4 +28,42 @@
             }, 0);
         });
     }
+
+    preventIncognito();
 })();
+
+function preventIncognito() {
+    detectIncognito().then((result) => {
+        if (result.isPrivate) {
+            document
+                .querySelectorAll("button[type='submit']")
+                .forEach((button) => {
+                    button.classList.add("disabled");
+                    button.disabled = true;
+                    button.parentElement.classList.add("disabled");
+                    button.parentElement.addEventListener(
+                        "click",
+                        alertIncognito,
+                        false
+                    );
+                });
+            document
+                .querySelectorAll("input[name='csrfmiddlewaretoken']")
+                .forEach((input) => {
+                    input.remove();
+                });
+        }
+    });
+}
+
+function alertIncognito() {
+    alert(
+        gettext(
+            "Não é permitido realizar esta ação com o navegador em modo anônimo."
+        )
+    );
+}
+
+var onloadCallback = function () {
+    preventIncognito();
+};

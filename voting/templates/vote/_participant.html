@@ -1,17 +1,31 @@
-{% load static %}
-{% load i18n %}
+{% load static %} {% load i18n %}
 
-<div class="video">
-    <iframe src="{{ participant.video_url }}" scrolling="no"></iframe>
+<div class="participant-content">
+    <div class="video">
+        <iframe src="{{ participant.video_url }}" scrolling="no"></iframe>
+    </div>
+    <div style="padding: 10px">
+        <form id="vote-form-{{ participant.id }}" action="{% url 'voting:vote' %}" method="POST">
+            {% csrf_token %}
+            <input hidden name="participant-id" value="{{ participant.id }}" />
+            <button type="submit" class="g-recaptcha"
+                data-sitekey="6LeO5MYgAAAAAPgIWEGgve8v1m-uhehoU497FjxB"
+                data-callback="onSubmit{{ participant.id }}" >{% translate "Votar" %}!</button>
+        </form>
+        <script type="text/javascript">
+            function onSubmit{{ participant.id }}(token) {
+                document.getElementById("vote-form-{{ participant.id }}").submit();
+            }
+        </script>
+        <div class="votes">
+            <span class="votes">{{ participant.votes }} {% translate "votos" %}</span>
+        </div>
+        <div class="name">
+            <span class="name">{{ participant.name }}</span>
+        </div>
+        <details class="description">
+            <summary>{% translate "Ver mais detalhes" %}</summary>
+            <p>{{ participant.description }}</p>
+        </details>
+    </div>
 </div>
-<a class="vote" href="{% url 'voting:vote' participant_id=participant.id %}">{% translate "Votar" %}!</a>
-<div class="votes">
-    <span class="votes">{{ participant.votes }}</span>
-</div>
-<div class="name">
-    <span class="name">{{ participant.name }}</span>
-</div>
-<details class="description">
-    <summary>{% translate "Detalhes" %}</summary>
-    <p>{{ participant.description }}</p>
-</details>

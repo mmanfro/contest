@@ -1,4 +1,5 @@
 import secrets
+import requests
 from datetime import timedelta
 
 from django.contrib import messages
@@ -25,35 +26,50 @@ def participants(request):
     return response
 
 
-def vote(request, participant_id):
-    ip_address = request.META.get("HTTP_X_FORWARDED_FOR") or request.META.get(
-        "REMOTE_ADDR"
-    )
-
-    if not "uuid" in request.COOKIES or not ip_address:
-        messages.error(
-            request,
-            _(
-                "Não foi possível salvar seu voto. Verifique se o seu navegador não está em modo anônimo e se os cookies estão habilitados."
-            ),
-        )
-        return participants(request)
-
-    try:
-        vote, created = Vote.objects.update_or_create(
-            cookie=request.COOKIES.get("uuid"),
-            defaults={
-                "participant_id": participant_id,
-                "ip_address": ip_address,
+def vote(request):
+    if request.method == "POST":
+        r = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={
+                "secret": "6LeO5MYgAAAAAPqFyh-CdyJ4mIVLA5E-SqqPLqAG",
+                "response": request.POST.get("g-recaptcha-response"),
             },
         )
 
-        messages.success(
-            request,
-            _("Voto salvo com sucesso."),
+        if not r.json().get("success"):
+            messages.error(
+                request,
+                _("Captcha inválido."),
+            )
+            return participants(request)
+
+        ip_address = request.META.get("HTTP_X_FORWARDED_FOR") or request.META.get(
+            "REMOTE_ADDR"
         )
 
-    except ValueError as e:
-        messages.error(request, e)
+        if not "uuid" in request.COOKIES or not ip_address:
+            messages.error(
+                request,
+                _(
+                    "Não foi possível salvar seu voto. Verifique se o seu navegador não está em modo anônimo e se os cookies estão habilitados."
+                ),
+            )
+            return participants(request)
+
+        try:
+            vote, created = Vote.objects.update_or_create(
+                cookie=request.COOKIES.get("uuid"),
+                defaults={
+                    "participant_id": request.POST.get("participant-id"),
+                    "ip_address": ip_address,
+                },
+            )
+
+            messages.success(
+                request,
+                _("Voto salvo com sucesso."),
+            )
+        except ValueError as e:
+            messages.error(request, e)
 
     return participants(request)
