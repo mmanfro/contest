@@ -2,7 +2,7 @@ import secrets
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from voting.models import Participant, Vote
-from django.utils.timezone import now
+from django.utils.timezone import now, datetime, timedelta
 from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 
@@ -18,7 +18,9 @@ def participants(request):
 
     if not "uuid" in request.COOKIES:
         uuid = secrets.token_urlsafe(24)
-        response.set_cookie(key="uuid", value=uuid)
+        response.set_cookie(
+            key="uuid", value=uuid, expires=datetime.today() + timedelta(months=1)
+        )
 
     return response
 
