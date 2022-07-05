@@ -20,8 +20,6 @@ def participants(request):
         uuid = secrets.token_urlsafe(24)
         response.set_cookie(key="uuid", value=uuid)
 
-    print(request.COOKIES.get("uuid"))
-
     return response
 
 
