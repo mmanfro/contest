@@ -68,6 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "contest.wsgi.application"
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
