@@ -42,7 +42,7 @@ def vote(request, participant_id):
             cookie=request.COOKIES.get("uuid"),
             defaults={
                 "participant_id": participant_id,
-                "ip_address": request.META.get("REMOTE_ADDR"),
+                "ip_address": ip_address,
             },
         )
 
