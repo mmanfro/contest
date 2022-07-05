@@ -24,7 +24,13 @@ def participants(request):
 
 
 def vote(request, participant_id):
-    if not "uuid" in request.COOKIES or not "REMOTE_ADDR" in request.META:
+    print(request.META.get("HTTP_X_FORWARDED_FOR"))
+
+    ip_address = request.META.get("HTTP_X_FORWARDED_FOR") or request.META.get(
+        "REMOTE_ADDR"
+    )
+
+    if not "uuid" in request.COOKIES or not ip_address:
         messages.error(
             request,
             _(
