@@ -42,8 +42,10 @@ def vote(request, participant_id):
     try:
         vote, created = Vote.objects.update_or_create(
             cookie=request.COOKIES.get("uuid"),
-            ip_address=request.META.get("REMOTE_ADDR"),
-            defaults={"participant_id": participant_id},
+            defaults={
+                "participant_id": participant_id,
+                "ip_address": request.META.get("REMOTE_ADDR"),
+            },
         )
 
         messages.success(
