@@ -13,9 +13,7 @@ from voting.models import Participant, Vote
 def participants(request):
     context = {}
 
-    context["participants"] = Participant.objects.filter(
-        start_date__lte=now(), end_date__gt=now()
-    )
+    context["participants"] = Participant.objects.all()
 
     response = render(request, "vote/participants.html", context=context)
 

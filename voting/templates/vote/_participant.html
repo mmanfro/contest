@@ -25,7 +25,7 @@
         </div>
         <details class="description">
             <summary>{% translate "Ver mais detalhes" %}</summary>
-            <p>{{ participant.description }}</p>
+            <p>{{ participant.description|safe }}</p>
         </details>
     </div>
 </div>
