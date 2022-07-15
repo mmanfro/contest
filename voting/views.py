@@ -65,10 +65,17 @@ def vote(request):
                 },
             )
 
-            messages.success(
-                request,
-                _("Voto salvo com sucesso."),
-            )
+            if created:
+                messages.success(
+                    request,
+                    _("Voto salvo com sucesso."),
+                )
+            else:
+                messages.success(
+                    request,
+                    _("Voto alterado com sucesso."),
+                )
+
         except ValueError as e:
             messages.error(request, e)
 

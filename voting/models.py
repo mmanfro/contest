@@ -45,11 +45,12 @@ def check_vote(sender, instance, *args, **kwargs):
         .exclude(cookie=instance.cookie)
         .count()
     )
-    max_count_ip = 3
+    max_count_ip = 5
     if count_ip >= max_count_ip:
         raise ValueError(
             _(
-                f"Só é possível votar no mesmo participante {max_count_ip} vezes por uma mesma rede. Conecte-se a outra rede e tente novamente."
+                f"""Só é possível votar no mesmo participante {max_count_ip} vezes por uma mesma rede.
+                Conecte-se a outra rede ou aguarde algumas horas e tente novamente."""
             )
         )
 
